@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<context:component-scan base-package="info.binarynetwork.*" />
+	
+	<bean id="loadConfigJSON"
+		class="info.binarynetwork.impls.LoadConfigFromJSON">
+		<constructor-arg name="filename" value="config.json"></constructor-arg>
+	</bean>
+	
+	<bean id="loadConfigFile"
+		class="info.binarynetwork.impls.LoadConfigFromFile">
+		<constructor-arg name="filename" value="config.ini"></constructor-arg>
+	</bean>
+	
+	<bean id="compareFile"
+		class="info.binarynetwork.impls.LoadCompareDataFile">
+		<constructor-arg name="file" value="RU_compare.json"></constructor-arg>
+	</bean>
+	
+	<bean id="familyLoaderJSON"
+		class="info.binarynetwork.impls.FamilyLoaderFromJSON">
+	</bean>
+	
+	<bean id="config" class="info.binarynetwork.impls.GetConfig">
+		<constructor-arg name="config" ref="loadConfigFile"></constructor-arg>
+		<!-- ref= "LoadConfigFromJSON" if need load config from JSON -->
+		<!-- ref= "loadConfigFile" if need load config from INI widows format -->
+	</bean>
+	
+	<bean id="inputData"
+		class="info.binarynetwork.impls.GetInputData">
+		<constructor-arg name="data" ref="compareStatic"></constructor-arg>
+		<!-- ref "compareFile" load data from file -->
+		<!-- ref "compareStatic" load data from static class -->
+	</bean>
+		
+	<bean id="familyData"
+		class="info.binarynetwork.impls.FamilyDataFile">
+		<property name="loader" ref="familyLoaderJSON"></property>
+	</bean>
+		
+	<bean id="cp_core"
+		class="info.binarynetwork.core.impl.NetworkCoreImpl">
+	</bean>
+		
+	<bean id="single_cp_step"
+		class="info.binarynetwork.core.impl.NetworkStepSingleCP">
+		<property name="core" ref="cp_core"></property>
+	</bean>	
+	
+	<bean id="multy_cp_step"
+		class="info.binarynetwork.core.impl.NetworkStepMultyCP">
+		<property name="core" ref="cp_core"></property>
+		<property name="THREAD_POOL_SIZE" value="4"></property>
+	</bean>	
+	
+	<bean id="network_step_check"
+		class="info.binarynetwork.core.impl.NetworkStepImpl">
+		<property name="executor" ref="single_cp_step"></property>
+		<!-- ref = "single_cp_step" for single CP -->
+		<!-- ref = "multy_cp_step" for Multy CP -->
+	</bean>
+	
+	<bean id="network_step"
+		class="info.binarynetwork.core.impl.NetworkStepImpl">
+		<property name="executor" ref="multy_cp_step"></property>
+		<!-- ref = "single_cp_step" for single CP -->
+		<!-- ref = "multy_cp_step" for Multy CP -->
+	</bean>
+</beans>

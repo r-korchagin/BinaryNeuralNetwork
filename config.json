@@ -1,0 +1,13 @@
+{
+cp_or_cuda:false,
+thread_pool_size:3,
+cuda_cp_compare_state:true,
+cuda_grid_size_x:4,
+cuda_block_size_x:128,
+family_size:16,
+first_lev:100,
+second_lev:1500,
+tride_lev:300,
+stop_deviation_result:5,
+maximum_count_iteration:15000
+}
