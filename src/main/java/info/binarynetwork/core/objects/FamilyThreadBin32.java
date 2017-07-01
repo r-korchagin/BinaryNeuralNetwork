@@ -3,17 +3,17 @@ package info.binarynetwork.core.objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import info.binarynetwork.core.interfaces.NetworkCore;
-import info.binarynetwork.objects.CompareData;
-import info.binarynetwork.objects.neuralElement;
+import info.binarynetwork.objects.Binary32Data;
+import info.binarynetwork.objects.neuralElement32;
 
-public class FamilyThread implements Runnable {
-    private final neuralElement[] family;
+public class FamilyThreadBin32 implements Runnable {
+    private neuralElement32[] family;
     private Integer startFrom;
-    private final CompareData cData;
+    private Binary32Data cData;
     private NetworkCore core;
     private ConcurrentHashMap<Integer, Float> map;
 
-    public FamilyThread(neuralElement[] family, Integer startFrom, CompareData cData, NetworkCore core,
+    public FamilyThreadBin32(neuralElement32[] family, Integer startFrom, Binary32Data cData, NetworkCore core,
 	    ConcurrentHashMap<Integer, Float> map) {
 	this.family = family;
 	this.startFrom = startFrom;
@@ -30,5 +30,4 @@ public class FamilyThread implements Runnable {
 	    startFrom++;
 	}
     }
-
 }

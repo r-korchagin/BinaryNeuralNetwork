@@ -6,7 +6,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<context:component-scan base-package="info.binarynetwork.*" />
-	
+
+	<!-- CONFIG -->
 	<bean id="loadConfigJSON"
 		class="info.binarynetwork.impls.LoadConfigFromJSON">
 		<constructor-arg name="filename" value="config.json"></constructor-arg>
@@ -17,19 +18,16 @@
 		<constructor-arg name="filename" value="config.ini"></constructor-arg>
 	</bean>
 	
-	<bean id="compareFile"
-		class="info.binarynetwork.impls.LoadCompareDataFile">
-		<constructor-arg name="file" value="RU_compare.json"></constructor-arg>
-	</bean>
-	
-	<bean id="familyLoaderJSON"
-		class="info.binarynetwork.impls.FamilyLoaderFromJSON">
-	</bean>
-	
 	<bean id="config" class="info.binarynetwork.impls.GetConfig">
 		<constructor-arg name="config" ref="loadConfigFile"></constructor-arg>
 		<!-- ref= "LoadConfigFromJSON" if need load config from JSON -->
 		<!-- ref= "loadConfigFile" if need load config from INI widows format -->
+	</bean>
+	
+	<!-- INPUTDATA -->
+	<bean id="compareFile"
+		class="info.binarynetwork.impls.LoadCompareDataFile">
+		<constructor-arg name="file" value="RU_compare.json"></constructor-arg>
 	</bean>
 	
 	<bean id="inputData"
@@ -37,6 +35,21 @@
 		<constructor-arg name="data" ref="compareStatic"></constructor-arg>
 		<!-- ref "compareFile" load data from file -->
 		<!-- ref "compareStatic" load data from static class -->
+	</bean>
+		
+	<bean id="inputData32"
+		class="info.binarynetwork.impls.GetBinary32Data">
+		<constructor-arg name="dataText" ref="compareStatic"></constructor-arg>
+	</bean>
+	
+	<bean id="inputData64"
+		class="info.binarynetwork.impls.GetBinary64Data">
+		<constructor-arg name="dataText" ref="compareStatic"></constructor-arg>
+	</bean>		
+		
+	<!-- FAMILY -->
+	<bean id="familyLoaderJSON"
+		class="info.binarynetwork.impls.FamilyLoaderFromJSON">
 	</bean>
 		
 	<bean id="familyData"
@@ -62,6 +75,7 @@
 	<bean id="network_step_check"
 		class="info.binarynetwork.core.impl.NetworkStepImpl">
 		<property name="executor" ref="single_cp_step"></property>
+		<property name="data" ref="inputData"></property>
 		<!-- ref = "single_cp_step" for single CP -->
 		<!-- ref = "multy_cp_step" for Multy CP -->
 	</bean>
@@ -69,7 +83,9 @@
 	<bean id="network_step"
 		class="info.binarynetwork.core.impl.NetworkStepImpl">
 		<property name="executor" ref="multy_cp_step"></property>
+		<property name="data" ref="inputData"></property>
 		<!-- ref = "single_cp_step" for single CP -->
 		<!-- ref = "multy_cp_step" for Multy CP -->
 	</bean>
+
 </beans>

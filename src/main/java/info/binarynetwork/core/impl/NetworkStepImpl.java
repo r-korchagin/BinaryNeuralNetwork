@@ -2,24 +2,33 @@ package info.binarynetwork.core.impl;
 
 import info.binarynetwork.core.interfaces.NetworkStep;
 import info.binarynetwork.core.interfaces.NetworkStepExecutor;
-import info.binarynetwork.objects.CompareData;
+import info.binarynetwork.interfaces.InputCompareData;
 import info.binarynetwork.objects.neuralElement;
 
 public class NetworkStepImpl implements NetworkStep {
 
-	private NetworkStepExecutor executor;
+    private NetworkStepExecutor executor;
+    private InputCompareData data;
 
-	public NetworkStepExecutor getExecutor() {
-		return executor;
-	}
+    public InputCompareData getData() {
+	return data;
+    }
 
-	public void setExecutor(NetworkStepExecutor executor) {
-		this.executor = executor;
-	}
+    public void setData(InputCompareData data) {
+	this.data = data;
+    }
 
-	public float[] execStep(neuralElement[] famiy, int familySize, CompareData data) {
-		float[] result = executor.runStep(famiy, familySize, data);
-		return result;
-	}
+    public NetworkStepExecutor getExecutor() {
+	return executor;
+    }
+
+    public void setExecutor(NetworkStepExecutor executor) {
+	this.executor = executor;
+    }
+
+    public float[] execStep(neuralElement[] famiy, int familySize) {
+	float[] result = executor.runStep(famiy, familySize, data.getInputData());
+	return result;
+    }
 
 }

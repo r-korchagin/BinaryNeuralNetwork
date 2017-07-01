@@ -10,24 +10,24 @@ import info.binarynetwork.objects.CompareData;
 
 public class LoadCompareDataFile implements LoadCompareData {
 
-	private String filename;
+    private String filename;
 
-	public LoadCompareDataFile(String file) {
-		this.filename = file;
-	}
+    public LoadCompareDataFile(String file) {
+	this.filename = file;
+    }
 
-	public CompareData loadInputData() {
-		CompareData comparD = new CompareData();
-		Gson filegson = new Gson();
-		try {
-			FileReader reader = new FileReader(filename);
-			comparD = filegson.fromJson(reader, CompareData.class);
-			reader.close();
-		} catch (IOException e) {
-			System.out.println("Can't open file " + filename);
-			e.printStackTrace();
-		}
-		return comparD;
+    public CompareData loadInputData() {
+	CompareData comparD = new CompareData();
+	Gson filegson = new Gson();
+	try {
+	    FileReader reader = new FileReader(filename);
+	    comparD = filegson.fromJson(reader, CompareData.class);
+	    reader.close();
+	} catch (IOException e) {
+	    System.out.println("Can't open file " + filename);
+	    e.printStackTrace();
 	}
+	return comparD;
+    }
 
 }

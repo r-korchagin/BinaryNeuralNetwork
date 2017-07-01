@@ -3,17 +3,17 @@ package info.binarynetwork.core.objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import info.binarynetwork.core.interfaces.NetworkCore;
-import info.binarynetwork.objects.CompareData;
+import info.binarynetwork.objects.Binary64Data;
 import info.binarynetwork.objects.neuralElement;
 
-public class FamilyThread implements Runnable {
-    private final neuralElement[] family;
+public class FamilyThreadBin64 implements Runnable {
+    private neuralElement[] family;
     private Integer startFrom;
-    private final CompareData cData;
+    private Binary64Data cData;
     private NetworkCore core;
     private ConcurrentHashMap<Integer, Float> map;
 
-    public FamilyThread(neuralElement[] family, Integer startFrom, CompareData cData, NetworkCore core,
+    public FamilyThreadBin64(neuralElement[] family, Integer startFrom, Binary64Data cData, NetworkCore core,
 	    ConcurrentHashMap<Integer, Float> map) {
 	this.family = family;
 	this.startFrom = startFrom;
