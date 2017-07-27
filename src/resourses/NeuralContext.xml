@@ -32,19 +32,23 @@
 	
 	<bean id="inputData"
 		class="info.binarynetwork.impls.GetInputData">
-		<constructor-arg name="data" ref="compareStatic"></constructor-arg>
+		<constructor-arg name="data" ref="compareFile"></constructor-arg>
 		<!-- ref "compareFile" load data from file -->
 		<!-- ref "compareStatic" load data from static class -->
 	</bean>
 		
 	<bean id="inputData32"
 		class="info.binarynetwork.impls.GetBinary32Data">
-		<constructor-arg name="dataText" ref="compareStatic"></constructor-arg>
+		<constructor-arg name="dataText" ref="compareFile"></constructor-arg>
+		<!-- ref "compareFile" load data from file -->
+		<!-- ref "compareStatic" load data from static class -->
 	</bean>
 	
 	<bean id="inputData64"
 		class="info.binarynetwork.impls.GetBinary64Data">
-		<constructor-arg name="dataText" ref="compareStatic"></constructor-arg>
+		<constructor-arg name="dataText" ref="compareFile"></constructor-arg>
+		<!-- ref "compareFile" load data from file -->
+		<!-- ref "compareStatic" load data from static class -->
 	</bean>		
 		
 	<!-- FAMILY -->
@@ -75,17 +79,20 @@
 	<bean id="network_step_check"
 		class="info.binarynetwork.core.impl.NetworkStepImpl">
 		<property name="executor" ref="single_cp_step"></property>
-		<property name="data" ref="inputData"></property>
 		<!-- ref = "single_cp_step" for single CP -->
 		<!-- ref = "multy_cp_step" for Multy CP -->
+		<property name="data32" ref="inputData32"></property>
 	</bean>
 	
 	<bean id="network_step"
 		class="info.binarynetwork.core.impl.NetworkStepImpl">
 		<property name="executor" ref="multy_cp_step"></property>
-		<property name="data" ref="inputData"></property>
 		<!-- ref = "single_cp_step" for single CP -->
 		<!-- ref = "multy_cp_step" for Multy CP -->
+		<property name="data32" ref="inputData32"></property>
+		<!-- ref  data = inputData  text input data -->
+		<!-- ref  data32 = Bin 32bit input data -->
+		<!-- ref  data64 = Bin 64bit input data -->
 	</bean>
 
 </beans>

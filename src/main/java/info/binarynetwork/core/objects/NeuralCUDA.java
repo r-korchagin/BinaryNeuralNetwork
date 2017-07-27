@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import info.binarynetwork.objects.CompareData;
-import info.binarynetwork.objects.neuralElement;
+import info.binarynetwork.objects.neuralElement64;
 import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.driver.CUcontext;
@@ -68,7 +68,7 @@ public class NeuralCUDA {
 	}
 
 	// @SuppressWarnings("null")
-	public static float[] compareNeural(neuralElement[] Family, CompareData comparD, int gridSizeX, int blockSizeX, int second_lev, int tride_lev, int devNum) throws IOException {
+	public static float[] compareNeural(neuralElement64[] Family, CompareData comparD, int gridSizeX, int blockSizeX, int second_lev, int tride_lev, int devNum) throws IOException {
 		// Enable exceptions and omit all subsequent error checks
 		// JCudaDeviceQuery.getCUDAdev();
 		// System.out.println("Family size = " + Family.length);
@@ -257,7 +257,7 @@ public class NeuralCUDA {
 	 * return long double array
 	 * 
 	 */
-	public static long[][] compareNeuralLong(neuralElement[] Family, CompareData comparD, int gridSizeX, int blockSizeX, int second_lev, int tride_lev, int devNum) throws IOException {
+	public static long[][] compareNeuralLong(neuralElement64[] Family, CompareData comparD, int gridSizeX, int blockSizeX, int second_lev, int tride_lev, int devNum) throws IOException {
 		// Enable exceptions and omit all subsequent error checks
 		// JCudaDeviceQuery.getCUDAdev();
 		// System.out.println("Family size = " + Family.length);

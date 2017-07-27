@@ -1,6 +1,6 @@
 package info.binarynetwork.objects;
 
-public class neuralElement {
+public class neuralElement64 {
 
 	private int level1; // count at 1 level
 	private int level2; // count at 2 level

@@ -4,16 +4,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import info.binarynetwork.core.interfaces.NetworkCore;
 import info.binarynetwork.objects.CompareData;
-import info.binarynetwork.objects.neuralElement;
+import info.binarynetwork.objects.neuralElement64;
 
 public class FamilyThread implements Runnable {
-    private final neuralElement[] family;
+    private final neuralElement64[] family;
     private Integer startFrom;
     private final CompareData cData;
     private NetworkCore core;
     private ConcurrentHashMap<Integer, Float> map;
 
-    public FamilyThread(neuralElement[] family, Integer startFrom, CompareData cData, NetworkCore core,
+    public FamilyThread(neuralElement64[] family, Integer startFrom, CompareData cData, NetworkCore core,
 	    ConcurrentHashMap<Integer, Float> map) {
 	this.family = family;
 	this.startFrom = startFrom;

@@ -14,7 +14,7 @@ import info.binarynetwork.core.objects.FamilyThreadBin64;
 import info.binarynetwork.objects.Binary32Data;
 import info.binarynetwork.objects.Binary64Data;
 import info.binarynetwork.objects.CompareData;
-import info.binarynetwork.objects.neuralElement;
+import info.binarynetwork.objects.neuralElement64;
 import info.binarynetwork.objects.neuralElement32;
 
 public class NetworkStepMultyCP implements NetworkStepExecutor {
@@ -38,7 +38,7 @@ public class NetworkStepMultyCP implements NetworkStepExecutor {
 	this.core = core;
     }
 
-    public float[] runStep(neuralElement[] famiy, int familySize, CompareData data) {
+    public float[] runStep(neuralElement64[] famiy, int familySize, CompareData data) {
 
 	float[] stepResult = new float[familySize];
 	ConcurrentHashMap<Integer, Float> rezConcurrentHashMap = new ConcurrentHashMap<Integer, Float>();
@@ -50,7 +50,7 @@ public class NetworkStepMultyCP implements NetworkStepExecutor {
 	    if (stopline > familySize) {
 		stopline = familySize;
 	    }
-	    neuralElement[] thrFamily = new neuralElement[stopline - z];
+	    neuralElement64[] thrFamily = new neuralElement64[stopline - z];
 	    int i = 0;
 	    int threadStartIndex = z;
 	    while (z < stopline) {
@@ -117,7 +117,7 @@ public class NetworkStepMultyCP implements NetworkStepExecutor {
 	return stepResult;
     }
 
-    public float[] runStep(neuralElement[] famiy, int familySize, Binary64Data data) {
+    public float[] runStep(neuralElement64[] famiy, int familySize, Binary64Data data) {
 	float[] stepResult = new float[familySize];
 	ConcurrentHashMap<Integer, Float> rezConcurrentHashMap = new ConcurrentHashMap<Integer, Float>();
 	ExecutorService ExServer = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
@@ -128,7 +128,7 @@ public class NetworkStepMultyCP implements NetworkStepExecutor {
 	    if (stopline > familySize) {
 		stopline = familySize;
 	    }
-	    neuralElement[] thrFamily = new neuralElement[stopline - z];
+	    neuralElement64[] thrFamily = new neuralElement64[stopline - z];
 	    int i = 0;
 	    int threadStartIndex = z;
 	    while (z < stopline) {

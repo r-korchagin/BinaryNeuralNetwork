@@ -5,7 +5,7 @@ import info.binarynetwork.core.interfaces.NetworkStepExecutor;
 import info.binarynetwork.objects.Binary32Data;
 import info.binarynetwork.objects.Binary64Data;
 import info.binarynetwork.objects.CompareData;
-import info.binarynetwork.objects.neuralElement;
+import info.binarynetwork.objects.neuralElement64;
 import info.binarynetwork.objects.neuralElement32;
 
 public class NetworkStepSingleCP implements NetworkStepExecutor {
@@ -20,7 +20,7 @@ public class NetworkStepSingleCP implements NetworkStepExecutor {
 	this.core = core;
     }
 
-    public float[] runStep(neuralElement[] famiy, int familySize, CompareData data) {
+    public float[] runStep(neuralElement64[] famiy, int familySize, CompareData data) {
 	float[] stepResult = new float[familySize];
 	for (int i = 0; i < familySize; i++) {
 	    stepResult[i] = core.compareEl(famiy[i], data);
@@ -38,7 +38,7 @@ public class NetworkStepSingleCP implements NetworkStepExecutor {
 	return stepResult;
     }
 
-    public float[] runStep(neuralElement[] famiy, int familySize, Binary64Data data) {
+    public float[] runStep(neuralElement64[] famiy, int familySize, Binary64Data data) {
 	float[] stepResult = new float[familySize];
 	for (int i = 0; i < familySize; i++) {
 	    stepResult[i] = core.compareEl(famiy[i], data);
