@@ -1,15 +1,20 @@
 package info.binarynetwork.neural;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import info.binarynetwork.core.interfaces.NetworkFamilyModification;
 import info.binarynetwork.core.interfaces.NetworkStep;
 import info.binarynetwork.impls.GetBinary32Data;
 import info.binarynetwork.interfaces.Config;
 import info.binarynetwork.interfaces.NetworkFamily;
+import info.binarynetwork.interfaces.OutputRuntimeResult;
 import info.binarynetwork.objects.NeuralConfig;
 import info.binarynetwork.objects.neuralElement32;
 
@@ -19,12 +24,17 @@ import info.binarynetwork.objects.neuralElement32;
  */
 public class App {
     public static void main(String[] args) {
+	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
 	ApplicationContext ctx = new ClassPathXmlApplicationContext("NeuralContext.xml");
 
 	Config config = (Config) ctx.getBean("config");
 	NeuralConfig currConfig = config.getConfig();
 
 	NetworkFamily family = (NetworkFamily) ctx.getBean("familyData");
+	NetworkFamilyModification FamilyGen = (NetworkFamilyModification) ctx.getBean("NetworkFamilyModification");
+	OutputRuntimeResult printout = (OutputRuntimeResult) ctx.getBean("OutputRuntimeResult");
+
 	// LOAD FROM FILE
 	// neuralElement[] familyData = family.loadFamily(".\\neuralfamily\\",
 	// currConfig.getFAMILY_SIZE());
@@ -38,17 +48,25 @@ public class App {
 	 * family.saveFamily(".\\neuralfamily\\test", familyData);
 	 */
 
-	// CREATE NEW32BIT FAMILY
-	neuralElement32[] familyData = family.createFamily32(currConfig.getFAMILY_SIZE(), currConfig.getFIRST_LEV(),
-		currConfig.getSECOND_LEV(), currConfig.getTRIDE_LEV(), 1);
-	family.saveFamily32(".\\neuralfamily\\test", familyData);
+	neuralElement32[] familyData;
+
+	if (args.length > 0 && args[0].equalsIgnoreCase("continue")) {
+	    // LOAD NEW32BIT FAMILY
+	    System.out.println("Load 32bit family from \\neuralfamily\\test");
+	    familyData = family.loadFamily32(".\\neuralfamily\\test", currConfig.getFAMILY_SIZE());
+	} else {
+	    // CREATE NEW32BIT FAMILY
+	    System.out.println("Create New Family");
+	    familyData = family.createFamily32(currConfig.getFAMILY_SIZE(), currConfig.getFIRST_LEV(),
+		    currConfig.getSECOND_LEV(), currConfig.getTRIDE_LEV(), 1);
+	    family.saveFamily32(".\\neuralfamily\\test", familyData);
+	}
 
 	float currentResult = new Float(1000000);
 	GetBinary32Data Cdata = (GetBinary32Data) ctx.getBean("inputData32");
 	float stopResult = currConfig.STOP_RESULT * Cdata.getInputData().getSize() / 100;
 	System.out.println("Stopresult = " + String.valueOf(stopResult));
-	int stopElitLev = (int) Math.round(currConfig.getFAMILY_SIZE() * 0.2); // elite
-	int stopCrossLev = (int) Math.round(currConfig.getFAMILY_SIZE() * 0.8); // cross
+
 	int countIterrations = 0;
 	int cycleCount = 0;
 
@@ -56,34 +74,46 @@ public class App {
 	// NetworkStep stepAlt = (NetworkStep)
 	// ctx.getBean("network_step_check");
 
-	float[] chkRez = new float[currConfig.getFAMILY_SIZE()];
-	float[] sortRez = new float[currConfig.getFAMILY_SIZE()];
-
 	while (currentResult > stopResult) {
 	    long startTime = System.currentTimeMillis();
+
 	    float[] result = step.execStep32(familyData, currConfig.getFAMILY_SIZE());
-	    long endTime = System.currentTimeMillis();
-	    long duration = (endTime - startTime);
-	    // System.out.println("time execution ms " + duration);
-	    /*
-	     * for (float r : result) { System.out.println("Result1 " + r); }
-	     */
 
-	    System.arraycopy(result, 0, chkRez, 0, result.length);
-	    System.arraycopy(result, 0, sortRez, 0, result.length);
-
-	    Arrays.sort(sortRez); /// less its the best
-	    // Arrays.hashCode()
+	    familyData = FamilyGen.FamilyMutation(familyData, result);
 
 	    // SEPARATE BY RESULT
-	    if (currentResult == sortRez[0]) {
-		countIterrations++;
+	    Arrays.sort(result);
+	    if (currentResult == result[0]) {
+		countIterrations++; // increase counter same result
 	    } else {
 		countIterrations = 0;
 	    }
-	    currentResult = sortRez[0];
-	    System.out.println(cycleCount + "---- | -----" + countIterrations + " time:" + duration + "ms");
+
+	    printout.Printout(result, startTime, cycleCount, countIterrations);
+
+	    currentResult = result[0];
 	    cycleCount++;
+
+	    String input;
+
+	    try {
+		if (System.in.available() > 0) {
+		    input = reader.readLine();
+		    if ("q".equals(input)) {
+			System.out.println("Exit! Save family...");
+			family.saveFamily32(".\\neuralfamily\\test", familyData);
+			currentResult = 0;
+		    }
+		}
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+
+	    // Stop learning if get maximum same iteration
+	    if (countIterrations >= currConfig.MAXIUM_COUNT_ITERATION) {
+		currentResult = 0;
+		family.saveFamily32(".\\neuralfamily\\test", familyData);
+	    }
 	}
 
 	/*
@@ -96,5 +126,19 @@ public class App {
 
 	((ConfigurableApplicationContext) ctx).close();
 
+    }
+
+    public static long getChecksumEl(neuralElement32 el) {
+	long chk = 0;
+	for (int i = 0; i < el.getLink1_2().length; i++) {
+	    chk = chk ^ el.getLink1_2()[i];
+	}
+	for (int i = 0; i < el.getLink2_3().length; i++) {
+	    chk = chk ^ el.getLink2_3()[i];
+	}
+	for (int i = 0; i < el.getLink3_4().length; i++) {
+	    chk = chk ^ el.getLink3_4()[i];
+	}
+	return chk;
     }
 }

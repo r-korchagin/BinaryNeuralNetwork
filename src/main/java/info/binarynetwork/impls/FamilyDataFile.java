@@ -4,14 +4,14 @@ import java.security.SecureRandom;
 
 import info.binarynetwork.interfaces.NetworkFamily;
 import info.binarynetwork.interfaces.NetworkFamilyLoader;
-import info.binarynetwork.objects.neuralElement64;
 import info.binarynetwork.objects.neuralElement32;
+import info.binarynetwork.objects.neuralElement64;
 
 public class FamilyDataFile implements NetworkFamily {
 
     private NetworkFamilyLoader loader;
 
-    private neuralElement64 createRandomEl(int lev1, int lev2, int lev3, int lev4) {
+    public static neuralElement64 createRandomEl64(int lev1, int lev2, int lev3, int lev4) {
 	neuralElement64 el = new neuralElement64();
 	el.setLevel1(lev1);
 	el.setLevel2(lev2);
@@ -38,7 +38,7 @@ public class FamilyDataFile implements NetworkFamily {
 	return el;
     }
 
-    private neuralElement32 createRandomEl32(int lev1, int lev2, int lev3, int lev4) {
+    public static neuralElement32 createRandomEl32(int lev1, int lev2, int lev3, int lev4) {
 	neuralElement32 el = new neuralElement32();
 	el.setLevel1(lev1);
 	el.setLevel2(lev2);
@@ -78,7 +78,7 @@ public class FamilyDataFile implements NetworkFamily {
 	// load family from file
 	for (int i = 0; i < familySize; i++) {
 	    String FileName = fileName + String.valueOf(i) + ".json";
-	    famiy[i] = loader.loadFamilyEl(FileName);
+	    famiy[i] = loader.loadFamilyEl64(FileName);
 	}
 	return famiy;
     }
@@ -86,7 +86,7 @@ public class FamilyDataFile implements NetworkFamily {
     public void saveFamily(String fileName, neuralElement64[] family) {
 	for (int i = 0; i < family.length; i++) {
 	    String FileName = fileName + String.valueOf(i) + ".json";
-	    loader.saveFamilyEl(FileName, family[i]);
+	    loader.saveFamilyEl64(FileName, family[i]);
 	}
 
     }
@@ -94,7 +94,7 @@ public class FamilyDataFile implements NetworkFamily {
     public neuralElement64[] createFamily(int familySize, int lev1, int lev2, int lev3, int lev4) {
 	neuralElement64[] family = new neuralElement64[familySize];
 	for (int i = 0; i < familySize; i++) {
-	    family[i] = createRandomEl(lev1, lev2, lev3, lev4);
+	    family[i] = createRandomEl64(lev1, lev2, lev3, lev4);
 	    // createRandomEl(100, 4000, 2000, 1,fileName);
 	}
 	return family;
@@ -122,7 +122,7 @@ public class FamilyDataFile implements NetworkFamily {
     public void saveFamily32(String fileName, neuralElement32[] family) {
 	for (int i = 0; i < family.length; i++) {
 	    String FileName = fileName + String.valueOf(i) + ".json";
-	    loader.saveFamilyEl(FileName, family[i]);
+	    loader.saveFamilyEl32(FileName, family[i]);
 	}
 
     }

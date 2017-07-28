@@ -5,12 +5,12 @@ import info.binarynetwork.objects.neuralElement32;
 
 public interface NetworkFamilyLoader {
 
-    public neuralElement64 loadFamilyEl(String filename);
+    public neuralElement64 loadFamilyEl64(String filename);
 
-    public void saveFamilyEl(String fileName, neuralElement64 familyEl);
+    public void saveFamilyEl64(String fileName, neuralElement64 familyEl);
 
     public neuralElement32 loadFamilyEl32(String filename);
 
-    public void saveFamilyEl(String fileName, neuralElement32 familyEl);
+    public void saveFamilyEl32(String fileName, neuralElement32 familyEl);
 
 }

@@ -12,7 +12,7 @@ import info.binarynetwork.objects.neuralElement32;
 
 public class FamilyLoaderFromJSON implements NetworkFamilyLoader {
 
-    public neuralElement64 loadFamilyEl(String filename) {
+    public neuralElement64 loadFamilyEl64(String filename) {
 	neuralElement64 comparD = new neuralElement64();
 	Gson filegson = new Gson();
 	try {
@@ -26,7 +26,7 @@ public class FamilyLoaderFromJSON implements NetworkFamilyLoader {
 	return comparD;
     }
 
-    public void saveFamilyEl(String fileName, neuralElement64 familyEl) {
+    public void saveFamilyEl64(String fileName, neuralElement64 familyEl) {
 	try {
 	    Gson gson = new Gson();
 	    // write converted json data to a file named "file.json"
@@ -56,7 +56,7 @@ public class FamilyLoaderFromJSON implements NetworkFamilyLoader {
 	return comparD;
     }
 
-    public void saveFamilyEl(String fileName, neuralElement32 familyEl) {
+    public void saveFamilyEl32(String fileName, neuralElement32 familyEl) {
 	try {
 	    Gson gson = new Gson();
 	    // write converted json data to a file named "file.json"
