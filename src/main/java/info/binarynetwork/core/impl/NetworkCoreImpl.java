@@ -1,8 +1,6 @@
 package info.binarynetwork.core.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -11,8 +9,8 @@ import info.binarynetwork.core.objects.CRC64;
 import info.binarynetwork.objects.Binary32Data;
 import info.binarynetwork.objects.Binary64Data;
 import info.binarynetwork.objects.CompareData;
-import info.binarynetwork.objects.neuralElement64;
 import info.binarynetwork.objects.neuralElement32;
+import info.binarynetwork.objects.neuralElement64;
 
 public class NetworkCoreImpl implements NetworkCore {
 
@@ -115,8 +113,14 @@ public class NetworkCoreImpl implements NetworkCore {
     }
 
     private static int max_value_in__array(int[] currentData) {
-	IntSummaryStatistics stat = Arrays.stream(currentData).summaryStatistics();
-	return stat.getMax();
+	int max = currentData[0];
+
+	for (int i = 1; i < currentData.length; i++) {
+	    if (currentData[i] > max) {
+		max = currentData[i];
+	    }
+	}
+	return max;
     }
 
     private static long resultN(int[] currentData, int level) {
@@ -263,7 +267,7 @@ public class NetworkCoreImpl implements NetworkCore {
 	int[] lev_4 = new int[el.getLevel4()];
 	// level_1 \/ \/ \/ \/ source arr
 	// level_2 | | | | net
-	if (dat.length > -1) {
+	if (dat.length > 0) {
 	    // ************** LEVEL 1 - 2 ************************ //
 	    int m = 0; // link 1 - 2 num
 	    for (int k = 0; k < el.getLevel2(); k++) {
@@ -338,7 +342,7 @@ public class NetworkCoreImpl implements NetworkCore {
 								 // neural //
 								 // run
 								 // & return
-	    int numLeftBit = NumberBits((int) (resume >> 32));
+	    int numLeftBit = NumberBits((int) (resume >> 16));
 	    int numRightBit = NumberBits((int) (resume));
 	    float compareRes = 0;
 	    if (resume != 0) {
