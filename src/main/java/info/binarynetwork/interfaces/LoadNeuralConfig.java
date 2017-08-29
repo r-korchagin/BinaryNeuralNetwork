@@ -4,6 +4,11 @@ import info.binarynetwork.objects.NeuralConfig;
 
 public interface LoadNeuralConfig {
 
-	NeuralConfig loadConfig();
+    /**
+     * Load configuration
+     * 
+     * @return Object configuration
+     */
+    NeuralConfig loadConfig();
 
 }

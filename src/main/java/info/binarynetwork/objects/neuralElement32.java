@@ -1,5 +1,10 @@
 package info.binarynetwork.objects;
 
+/**
+ * 
+ * Class describe neural network element for 32-bit binary network
+ *
+ */
 public class neuralElement32 {
     private int level1; // count at 1 level
     private int level2; // count at 2 level

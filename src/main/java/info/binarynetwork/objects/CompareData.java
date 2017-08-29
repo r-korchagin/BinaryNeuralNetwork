@@ -3,6 +3,11 @@ package info.binarynetwork.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * Check text data for network learning
+ *
+ */
 public class CompareData {
 
     private List<String> textData = new ArrayList<String>();

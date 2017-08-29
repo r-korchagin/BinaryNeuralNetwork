@@ -6,18 +6,18 @@ import info.binarynetwork.objects.NeuralConfig;
 
 public class GetConfig implements Config {
 
-	private NeuralConfig config;
+    private NeuralConfig config;
 
-	public GetConfig(LoadNeuralConfig config) {
-		this.config = config.loadConfig();
-	}
+    public GetConfig(LoadNeuralConfig config) {
+	this.config = config.loadConfig();
+    }
 
-	public void setConfig(LoadNeuralConfig config) {
-		this.config = config.loadConfig();
-	}
+    public void setConfig(LoadNeuralConfig config) {
+	this.config = config.loadConfig();
+    }
 
-	public NeuralConfig getConfig() {
-		return this.config;
-	}
+    public NeuralConfig getConfig() {
+	return this.config;
+    }
 
 }

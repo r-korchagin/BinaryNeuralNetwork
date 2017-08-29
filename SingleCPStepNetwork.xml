@@ -86,7 +86,7 @@
 	
 	<bean id="network_step"
 		class="info.binarynetwork.core.impl.NetworkStepImpl">
-		<property name="executor" ref="multy_cp_step"></property>
+		<property name="executor" ref="single_cp_step"></property>
 		<!-- ref = "single_cp_step" for single CP -->
 		<!-- ref = "multy_cp_step" for Multy CP -->
 		<property name="data32" ref="inputData32"></property>

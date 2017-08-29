@@ -3,6 +3,9 @@ package info.binarynetwork.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class Binary32Data is input 32-bit data for neural network
+ */
 public class Binary32Data {
     private List<Float> indexData = new ArrayList<Float>();
     private List<int[]> binaryData = new ArrayList<int[]>();

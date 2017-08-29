@@ -3,6 +3,9 @@ package info.binarynetwork.objects;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class Binary64Data is input 64-bit data for neural network
+ */
 public class Binary64Data {
     private List<Float> indexData = new ArrayList<Float>();
     private List<long[]> binaryData = new ArrayList<long[]>();
